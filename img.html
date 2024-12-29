@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘礼物</title>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .description {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .main-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .hint-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+            min-width: 200px;
+        }
+
+        .hint-button:hover {
+            background-color: #45a049;
+        }
+
+        .paid-button {
+            background-color: #2196F3;
+        }
+
+        .paid-button:hover {
+            background-color: #1976D2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .qr-image {
+            max-width: 200px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>神秘礼物</h1>
+        <p class="description">礼物要靠努力才能够获得！来做题吧哈哈哈哈哈！这个图真的非常非常美丽，它里面藏着进入下一关的方式，努力找一下吧。</p>
+        
+        <img src="important.jpg" alt="神秘图片" class="main-image">
+        
+        <div class="button-container">
+            <button class="hint-button" onclick="showModal('modal1')">找不到嘞，给个提示吧</button>
+            <button class="hint-button paid-button hidden" id="hint1-paid" onclick="showHint('这个图片的description好奇特呀')">我已付款，求提示</button>
+            
+            <button class="hint-button" onclick="showModal('modal2')">还是找不到呀，求求提示</button>
+            <button class="hint-button paid-button hidden" id="hint2-paid" onclick="showHint('用下https://exif.tuchong.com/试试？')">我已付款，求提示</button>
+        </div>
+    </div>
+
+    <!-- 第一个提示的模态框 -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <h2>支付获取提示</h2>
+            <p>支付十元，即可获得提示</p>
+            <img src="alipay.jpg" alt="支付宝二维码" class="qr-image">
+            <button class="hint-button" onclick="showPaidButton('hint1-paid'); closeModal('modal1')">我已完成支付</button>
+        </div>
+    </div>
+
+    <!-- 第二个提示的模态框 -->
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal2')">&times;</span>
+            <h2>支付获取提示</h2>
+            <p>支付二十元，即可获得提示</p>
+            <img src="alipay.jpg" alt="支付宝二维码" class="qr-image">
+            <button class="hint-button" onclick="showPaidButton('hint2-paid'); closeModal('modal2')">我已完成支付</button>
+        </div>
+    </div>
+
+    <!-- 提示内容的模态框 -->
+    <div id="hint-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('hint-modal')">&times;</span>
+            <h2>提示信息</h2>
+            <p id="hint-content"></p>
+        </div>
+    </div>
+
+    <script>
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showPaidButton(buttonId) {
+            document.getElementById(buttonId).classList.remove('hidden');
+        }
+
+        function showHint(hint) {
+            document.getElementById('hint-content').textContent = hint;
+            showModal('hint-modal');
+        }
+
+        // 点击模态框外部关闭模态框
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
