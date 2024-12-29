@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>趣味选择题</title>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            border-color: #3498db;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #3498db;
+            background-color: #ebf5fb;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal img {
+            max-width: 200px;
+            margin: 20px 0;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .close-btn {
+            margin-top: 15px;
+            padding: 8px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="question">
+            你的幽默感非常非常非常惊艳。举一个🌰，你曾经用一个术语形容你前组、我现组的竞争情况。那么问题来了！以下哪个情景最符合你用的术语？
+        </div>
+        <div class="options">
+            <div class="option" data-value="A">
+                A. 由于食堂太多了，ziwei每天投骰子决定去吃几号食堂。
+            </div>
+            <div class="option" data-value="B">
+                B. vector每周一都在群里问大家进展，发现国外的同学总是不立刻回消息。经过这个严密的大数统计，他觉得国外同学不如国内同学勤奋，决定开掉国外同学。
+            </div>
+            <div class="option" data-value="C">
+                C. shijie买了一只可爱的小狗，小狗被取名为yufeng。好巧，我们也有个前同事叫yufeng！yufeng 和 yufeng是不是存在某种对应关系？
+            </div>
+            <div class="option" data-value="D">
+                D. o1来了！code组的金华和xierui一组蒸馏o1、永飞蒸馏Qwen的QwQ、yifan用mcts搜索，llm3的同学在搞秘密的alpha-seed项目实现o1，llm1的同学在做cot。他们都有光明的未来！
+            </div>
+        </div>
+        <button class="submit-btn">提交答案</button>
+    </div>
+
+    <div class="modal">
+        <div class="modal-content">
+            <h2>你的数学太差啦！</h2>
+            <p>支付10元获得答题权，请不要作弊！</p>
+            <img src="alipay.jpg" alt="支付宝二维码">
+            <button class="close-btn">关闭</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const options = document.querySelectorAll('.option');
+            const submitBtn = document.querySelector('.submit-btn');
+            const modal = document.querySelector('.modal');
+            const closeBtn = document.querySelector('.close-btn');
+            let selectedOption = null;
+
+            // 选项点击事件
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedOption = option.getAttribute('data-value');
+                });
+            });
+
+            // 提交按钮点击事件
+            submitBtn.addEventListener('click', () => {
+                if (!selectedOption) {
+                    alert('请选择一个选项！');
+                    return;
+                }
+
+                if (selectedOption === 'A') {
+                    // 正确答案，跳转到奖励页面
+                    window.location.href = 'reward_model.html';
+                } else {
+                    // 错误答案，显示支付弹窗
+                    modal.style.display = 'flex';
+                }
+            });
+
+            // 关闭按钮点击事件
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // 点击模态框外部关闭
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RM好难啊</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #EFF6FF 0%, #FFFFFF 100%);
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 32px;
+        }
+
+        .title {
+            text-align: center;
+            color: #1F2937;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 24px;
+        }
+
+        .description {
+            color: #4B5563;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option:hover {
+            background-color: #F3F4F6;
+        }
+
+        .option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .option label {
+            color: #4B5563;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #2563EB;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #1D4ED8;
+        }
+
+        .submit-btn:disabled {
+            background-color: #93C5FD;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background-color: #FEE2E2;
+            border-radius: 6px;
+            color: #991B1B;
+        }
+
+        .alert.show {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 class="title">RM好难啊</h1>
+        <p class="description">
+            复习一下老本行reward model吧！请开动你的小脑筋，根据食堂口味做出正确的排序。
+            参赛的选手包括：① 北京方恒，② 上海尚浦，③ 上海新江湾城，④ 上海漕河泾。
+        </p>
+        
+        <div class="options">
+            <div class="option">
+                <input type="radio" id="optionA" name="answer" value="A">
+                <label for="optionA">选项 A：①>②>④>③</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="optionB" name="answer" value="B">
+                <label for="optionB">选项 B：③>①>④>②</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="optionC" name="answer" value="C">
+                <label for="optionC">选项 C：①>③>④>②</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="optionD" name="answer" value="D">
+                <label for="optionD">选项 D：③>①>②>④</label>
+            </div>
+        </div>
+
+        <button class="submit-btn" disabled>提交答案</button>
+
+        <div class="alert">
+            <span>需要付费10元获得答题机会</span>
+            <img src="alipay.jpg" alt="支付宝收款码" class="qr-code">
+        </div>
+    </div>
+
+    <script>
+        const submitBtn = document.querySelector('.submit-btn');
+        const radioInputs = document.querySelectorAll('input[type="radio"]');
+        const alert = document.querySelector('.alert');
+
+        // 启用/禁用提交按钮
+        radioInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                submitBtn.disabled = false;
+            });
+        });
+
+        // 处理提交
+        submitBtn.addEventListener('click', () => {
+            const selected = document.querySelector('input[name="answer"]:checked').value;
+            if (selected === 'B') {
+                window.location.href = 'finally.html';
+            } else {
+                alert.classList.add('show');
+            }
+        });
+    </script>
+</body>
+</html>
